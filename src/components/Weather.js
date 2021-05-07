@@ -33,11 +33,8 @@ const Weather = ({data}) => {
       <div>Sunrise: {new Date(data.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</div>
       <div>Sunset: {new Date(data.sys.sunset * 1000).toLocaleTimeString('en-IN')}</div>
       <div>
-        Day: {moment().format('dddd')}
-        </div>
-      <div>
-        Date: {moment().format('LL')}
-        </div>
+        Date: {moment().format('dddd, LL')}
+      </div>
           
       </WeatherDiv>
       </Wrapper>
@@ -58,14 +55,15 @@ const WeatherDiv = styled.div`
   border-radius: 20px;
   box-shadow: 2px 2px 8px rgba(0,0,0, 0.4);
   line-height: 2;
-  background-color: white;
+  font-size: 1.2rem;
+  background-color: rgba(255,255,255, 0.5);
 
 `;
 
 const H1 = styled.h1`
-  font-size: 1.3rem;
+  font-size: 2rem;
   text-transform: uppercase;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid rgba(0,0,0, 0.4);
   text-align: center;
 `;
 
