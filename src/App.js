@@ -2,18 +2,21 @@ import React, { useEffect, useState } from "react";
 import Weather from "./components/Weather";
 import GlobalStyles from "./components/GlobalStyles";
 import cloudy from './assets/cloudy.jpg';
+import rain from './assets/rain.jpg';
 import sunny from './assets/sunny.jpg';
 import styled from "styled-components";
 const { REACT_APP_API_KEY } = process.env;
 
-
+// TODO add search function, add hourly, add 7 day forecast
 
 const App = () => {
   const [lat, setLat] = useState([]);
   const [long, setLong] = useState([]);
   const [data, setData] = useState([]);
+  const [forecast, setForecast] = useState([]);
   const [sun, setSun] = useState(false);
   const [cloud, setCloud] = useState(false);
+  const [rain, setRain] = useState(false);
 
   // get lat & long from user if they allow and then fetch the current weather for their location
   useEffect(() => {
@@ -26,7 +29,15 @@ const App = () => {
         .then(res => res.json())
         .then(result => {
           setData(result);
-          console.log(result);
+        })
+        .catch((err) => {
+          console.log('error', err.message)
+        }) 
+      await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${long}&units=metric&APPID=${REACT_APP_API_KEY}`)
+        .then(res => res.json())
+        .then(result => {
+          setForecast(result);
+          console.log("5 day forecast",result);
         })
         .catch((err) => {
           console.log('error', err.message)
@@ -42,6 +53,9 @@ const App = () => {
     if (data.main && data.weather[0].description.includes('clear' || 'sun')) {
       setSun(true);
     }
+    if (data.main && data.weather[0].description.includes('rain' || 'drizzle')) {
+      setRain(true);
+    }
 }, [data])
 
   // wait until data is received before trying to display it
@@ -49,15 +63,16 @@ const App = () => {
   return (
     <>
       <GlobalStyles />
-      {sun ? (
+      {sun && (
         <Sun sunImage={sunny}>
-      {data.main ? (
-      <Weather data={data}/>
-      ) : (
-          <div>Loading...</div>
-      )}
+          {data.main ? (
+            <Weather data={data} />
+          ) : (
+            <div>Loading...</div>
+          )}
         </Sun>
-      ) : (
+      )}
+      {cloud && (
           <Cloud cloudImage={cloudy}>
           {data.main ? (
       <Weather data={data}/>
@@ -65,6 +80,15 @@ const App = () => {
           <div>Loading...</div>
       )}
         </Cloud>
+      )}
+      {rain && (
+          <Rain rainImage={rain}>
+          {data.main ? (
+      <Weather data={data}/>
+      ) : (
+          <div>Loading...</div>
+      )}
+        </Rain>
       )}
       
     </>
@@ -83,6 +107,14 @@ const Cloud = styled.div`
   height: 100vh;
   width: 100vw;
   background-image: url(${props => props.cloudImage});
+  background-position: center;
+  background-size: cover;
+`;
+
+const Rain = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-image: url(${props => props.rainImage});
   background-position: center;
   background-size: cover;
 `;
