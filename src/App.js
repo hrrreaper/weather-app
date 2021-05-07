@@ -5,6 +5,7 @@ import cloudy from './assets/cloudy.jpg';
 import rain from './assets/rain.jpg';
 import sunny from './assets/sunny.jpg';
 import styled from "styled-components";
+import Loading from './components/Loading';
 const { REACT_APP_API_KEY } = process.env;
 
 // TODO add search function, add hourly, add 7 day forecast
@@ -68,7 +69,7 @@ const App = () => {
           {data.main ? (
             <Weather data={data} />
           ) : (
-            <div>Loading...</div>
+            <Loading />
           )}
         </Sun>
       )}
@@ -77,7 +78,7 @@ const App = () => {
           {data.main ? (
       <Weather data={data}/>
       ) : (
-          <div>Loading...</div>
+          <Loading />
       )}
         </Cloud>
       )}
@@ -86,7 +87,7 @@ const App = () => {
           {data.main ? (
       <Weather data={data}/>
       ) : (
-          <div>Loading...</div>
+          <Loading />
       )}
         </Rain>
       )}
