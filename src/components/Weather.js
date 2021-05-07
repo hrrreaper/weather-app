@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import moment from 'moment';
+import { FiRefreshCcw } from "react-icons/fi";
+
 
 const refresh = () => {
   window.location.reload();
@@ -10,9 +12,12 @@ const Weather = ({data}) => {
   return (
     <Wrapper>
       <WeatherDiv>
+        <div>
+          <Button onClick={refresh}><FiRefreshCcw size={20}/></Button>
       <H1>
       {data.name}
-        </H1>
+          </H1>
+        </div>
         <div>
         Temperature: {Math.round(data.main.temp)} &deg;C
         </div>
@@ -53,6 +58,7 @@ const WeatherDiv = styled.div`
   border-radius: 20px;
   box-shadow: 2px 2px 8px rgba(0,0,0, 0.4);
   line-height: 2;
+  background-color: white;
 
 `;
 
@@ -61,6 +67,12 @@ const H1 = styled.h1`
   text-transform: uppercase;
   border-bottom: 1px solid lightgrey;
   text-align: center;
+`;
+
+const Button = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 `;
 
 export default Weather;
