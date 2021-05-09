@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Weather from "./components/Weather";
 import GlobalStyles from "./components/GlobalStyles";
 import cloudy from './assets/cloudy.jpg';
-import rain from './assets/rain.jpg';
+import rainy from './assets/rain.jpg';
 import sunny from './assets/sunny.jpg';
 import styled from "styled-components";
 import Loading from './components/Loading';
@@ -19,6 +19,7 @@ const App = () => {
   const [cloud, setCloud] = useState(false);
   const [rain, setRain] = useState(false);
 
+
   // get lat & long from user if they allow and then fetch the current weather for their location
   useEffect(() => {
     const getData = async () => {
@@ -30,6 +31,7 @@ const App = () => {
         .then(res => res.json())
         .then(result => {
           setData(result);
+          console.log("forecast",result);
         })
         .catch((err) => {
           console.log('error', err.message)
@@ -38,7 +40,7 @@ const App = () => {
         .then(res => res.json())
         .then(result => {
           setForecast(result);
-          console.log("5 day forecast",result);
+        
         })
         .catch((err) => {
           console.log('error', err.message)
@@ -54,7 +56,7 @@ const App = () => {
     if (data.main && data.weather[0].description.includes('clear' || 'sun')) {
       setSun(true);
     }
-    if (data.main && data.weather[0].description.includes('rain' || 'drizzle')) {
+    if (data.main && data.weather[0].description.includes('Rain')) {
       setRain(true);
     }
 }, [data])
@@ -83,7 +85,7 @@ const App = () => {
         </Cloud>
       )}
       {rain && (
-          <Rain rainImage={rain}>
+          <Rain rainImage={rainy}>
           {data.main ? (
       <Weather data={data}/>
       ) : (
